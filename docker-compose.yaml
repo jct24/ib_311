@@ -29,11 +29,12 @@ x-airflow-common:
     AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
-    AIRFLOW__CORE__FERNET_KEY: khRCuLpMHLVycUvbabsHy5diUV2NUygLG47auGx29VY=
+    AIRFLOW__CORE__FERNET_KEY: inRhXVz-gxC-jRq3W8jOM1lMVga5XAooXxlF7UBVc-s=
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
     AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     AIRFLOW__WEBSERVER__RBAC: "true"
     AIRFLOW__WEBSERVER__RELOAD_ON_PLUGIN_CHANGE: "true"
+    AIRFLOW__CORE__ENABLE_XCOM_PICKLING: "true"
     # Reload plugins
     AIRFLOW__CORE__LAZY_LOAD_PLUGINS: "false"
     _AIRFLOW_DB_UPGRADE: "true"
@@ -65,12 +66,12 @@ services:
       - POSTGRES_USER=airflow
       - POSTGRES_PASSWORD=airflow
       - POSTGRES_DB=airflow
-      - POSTGRES_MULTIPLE_DATABASES=superset,postgres:userdata,postgres
+      - POSTGRES_MULTIPLE_DATABASES=superset,postgres:denver,postgres
     ports:
       - 5432:5432
     volumes:
       # initdb only executes if volume is empty
-      - ./pg-init-scripts:/docker-entrypoint-initdb.d/
+      - ./pg-init-scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres-db-volume:/var/lib/postgresql/data
     command: >
      postgres
@@ -122,7 +123,7 @@ services:
   airflow-worker:
     <<: *airflow-common
     command: celery worker
-    container_name: airflow-worker
+    # container_name: airflow-worker
     restart: always
 
   airflow-init:
@@ -134,7 +135,7 @@ services:
       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow} 
     command: bash -c "
-        airflow connections add "postgres_new" --conn-uri "postgres://airflow:airflow@postgres:5432/airflow""
+        airflow connections add "postgres_311" --conn-uri "postgres://airflow:airflow@postgres:5432/airflow""
 
   flower:
     <<: *airflow-common

@@ -1,5 +1,4 @@
 CREATE TABLE IF NOT EXISTS public.service_requests (
-    case_id serial NOT NULL,
     case_summary text NULL,
     case_status text NULL,
     case_source text NULL,
@@ -24,7 +23,8 @@ CREATE TABLE IF NOT EXISTS public.service_requests (
     council_district int NULL,
     police_district int NULL,
     neighborhood text NULL,
-    load_date date NOT NULL
+    load_date date NOT NULL,
+    case_id serial NOT NULL
 );
 
 
