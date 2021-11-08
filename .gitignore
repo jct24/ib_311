@@ -1,0 +1,10 @@
+dags/__pycache__
+dags/testdag.py
+test/__pycache__
+logs
+.vscode
+data/.minio.sys
+.idea
+_config.yml
+plugins/__pycache__
+plugins/operators/__pycache__
