@@ -22,7 +22,7 @@ x-superset-volumes: &superset-volumes
 
 x-airflow-common:
   &airflow-common
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:latest-python3.8}
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:latest-python3.8}  # 311-image:0.0.1
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -43,7 +43,7 @@ x-airflow-common:
     _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
     AIRFLOW__API__AUTH_BACKEND: "airflow.api.auth.backend.basic_auth"
     # AIRFLOW__CORE__LOGGING_LEVEL: "Debug"
-    # _PIP_ADDITIONAL_REQUIREMENTS: ""
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- nltk}
     # AIRFLOW__CORE__PLUGINS_FOLDER: "/opt/airflow/plugins"
   volumes:
     - ./dags:/opt/airflow/dags
@@ -51,6 +51,7 @@ x-airflow-common:
     - ./plugins:/opt/airflow/plugins
     - ./sql:/opt/airflow/sql
     - ./test:/opt/airflow/test
+    - ./data/nltk_data/corpora/stopwords:/usr/share/nltk_data/corpora/stopwords
     # - ./config/airflow.cfg:/opt/airflow/airflow.cfg
   user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
   depends_on:

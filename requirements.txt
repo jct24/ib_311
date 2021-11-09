@@ -1,5 +1,6 @@
 apache-airflow==2.2.1
-apache-airflow-providers-postgres>=2.3.0
-requests>=2.26.0
-pandas>=1.3.4
-zipfile38>=0.0.3
+apache-airflow-providers-postgres==2.3.0
+requests==2.26.0
+pandas==1.3.4
+# nltk==3.6.5
+# pyarrow>=5.0.0
